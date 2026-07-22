@@ -13,9 +13,9 @@ __pycache__/
 # Streamlit config
 .streamlit/
 similarity.pkl
-movie_dict.pkl
+
 *.csv
 
 similarity.pkl
-movie_dict.pkl
+
 *.csv
