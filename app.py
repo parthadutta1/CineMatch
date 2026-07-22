@@ -1,7 +1,22 @@
+import os
 import pickle
 import pandas as pd
 import requests
 import streamlit as st
+
+# 1. MUST BE THE VERY FIRST STREAMLIT COMMAND
+st.set_page_config(page_title="CineMatch", page_icon="🎬", layout="wide")
+
+# 2. AUTO-DOWNLOAD SIMILARITY MODEL IF NOT FOUND
+SIMILARITY_URL = "https://github.com/parthadutta1/CineMatch/releases/download/v1.0/similarity.pkl"
+SIMILARITY_FILE = "similarity.pkl"
+
+if not os.path.exists(SIMILARITY_FILE):
+    st.info("Downloading similarity model file for first-time setup... This may take a few seconds.")
+    response = requests.get(SIMILARITY_URL, stream=True)
+    with open(SIMILARITY_FILE, "wb") as f:
+        for chunk in response.iter_content(chunk_size=8192):
+            f.write(chunk)
 
 # Your TMDB API Key
 TMDB_API_KEY = "a39539f0a4710c607a061029d4a71bb1"
@@ -41,16 +56,13 @@ def recommend(movie_title):
     return recommended_names, recommended_posters
 
 
-# Streamlit UI Config
-st.set_page_config(page_title="CineMatch", page_icon="🎬", layout="wide")
-
 st.title("🎬 CineMatch: Movie Recommender System")
 st.write("Select a movie you like to get personalized recommendations!")
 
 # Load pickle files
 try:
     movies_dict = pickle.load(open("movie_dict.pkl", "rb"))
-    similarity = pickle.load(open("similarity.pkl", "rb"))
+    similarity = pickle.load(open(SIMILARITY_FILE, "rb"))
     movies = pd.DataFrame(movies_dict)
 
     selected_movie = st.selectbox(
