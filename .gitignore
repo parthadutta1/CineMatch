@@ -1,0 +1,21 @@
+# Python virtual environment
+env/
+venv/
+.venv/
+__pycache__/
+
+# Byte-compiled / optimized files
+*.py[cod]
+
+# Large dataset/pickle files (optional: commit if small, but usually ignored)
+# *.pkl
+
+# Streamlit config
+.streamlit/
+similarity.pkl
+movie_dict.pkl
+*.csv
+
+similarity.pkl
+movie_dict.pkl
+*.csv
